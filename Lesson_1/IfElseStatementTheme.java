@@ -61,10 +61,10 @@ public class IfElseStatementTheme {
             else if (num < 0) {
                 System.out.print(num + " является отрицательным");
             }
-            if (num%2 == 0) {
+            if (num % 2 == 0) {
                 System.out.println(" и четным");
             }
-            else if (num%2 != 0) {
+            else if (num % 2 != 0) {
                 System.out.println(" и нечетным");
             }
         }
@@ -74,12 +74,12 @@ public class IfElseStatementTheme {
 
         int c = 123;
         int d = 223;
-        int c1 = c%10;
-        int d1 = d%10;
-        int c2 = (c/10)%10;
-        int d2 = (d/10)%10;
-        int c3 = (c/100)%10;
-        int d3 = (d/100)%10;
+        int c1 = c % 10;
+        int d1 = d % 10;
+        int c2 = (c/10) % 10;
+        int d2 = (d/10) % 10;
+        int c3 = (c/100) % 10;
+        int d3 = (d/100) % 10;
         System.out.println("исходные числа: " + c + ", " + d);
         if (c1 != d1 && c2 != d2 && c3 != d3) {
             System.out.println("нет одинаковых цифр");
@@ -126,7 +126,7 @@ public class IfElseStatementTheme {
         else if (sum > 300000) {
             interest = 10;
         }
-        double newSum = sum*interest/100 + sum;
+        double newSum = sum * interest / 100 + sum;
         System.out.println("сумма вклада: " + sum);
         System.out.println("сумма начисленного %: " + (newSum - sum));
         System.out.println("итоговая сумма с %: " + newSum);
