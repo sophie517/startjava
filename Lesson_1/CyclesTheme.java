@@ -185,27 +185,26 @@ public class CyclesTheme {
         int sum2 = 0;
         int firstHalf = num / 1000;
         int secondHalf = num % 1000;
+        int firstHalfCopy = firstHalf;
+        int secondHalfCopy = secondHalf;
+
+        while (firstHalf > 0) {
+            sum1 += firstHalf % 10;
+            firstHalf /= 10;
+            sum2 += secondHalf % 10;
+            secondHalf /= 10;
+        }
 
         System.out.print("Число " + num);
 
-        while (num > 999) {
-            sum2 += num % 10;
-            num /= 10;
-        }
-
-        while (num > 0) {
-            sum1 += num % 10;
-            num /= 10;
-        }
-
-        if (firstHalf == secondHalf) {
+        if (sum1 == sum2) {
             System.out.println(" является счастливым");
         } else {
             System.out.println(" не является счастливым");
         }
 
-        System.out.printf("Сумма цифр %d = %d", firstHalf, sum1);
-        System.out.printf(", а сумма %d = %d", secondHalf, sum2);
+        System.out.printf("Сумма цифр %d = %d", firstHalfCopy, sum1);
+        System.out.printf(", а сумма %d = %d", secondHalfCopy, sum2);
         
         //10. Отображение таблицы умножения Пифагора
         System.out.println("\n\n10. Отображение таблицы умножения Пифагора\n");
