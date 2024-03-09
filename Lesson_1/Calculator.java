@@ -3,11 +3,10 @@ public class Calculator {
         int a = 7;
         int b = 3;
         char sign = '+';
-        double resultOfDivision;
         int result = 1;
 
         if (sign == '/') {
-            resultOfDivision = (double) a / (double) b;
+            double resultOfDivision = (double) a / b;
             System.out.print(a + " " + sign + " " + b + " = ");
             System.out.printf("%.5f", resultOfDivision);
         } else {

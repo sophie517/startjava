@@ -1,13 +1,13 @@
 public class MyFirstGame {
     public static void main(String[] args) {
-        int pickedNumber = 67;
+        int hiddenNumber = 67;
         int playerNumber = 32;
         
-        while (playerNumber != pickedNumber) {
-            if (playerNumber > pickedNumber) {
+        while (playerNumber != hiddenNumber) {
+            if (playerNumber > hiddenNumber) {
                 System.out.println("Число " + playerNumber + " больше того, что загадал компьютер");
                 playerNumber -= 2;
-            } else if (playerNumber < pickedNumber) {
+            } else if (playerNumber < hiddenNumber) {
                 System.out.println("Число " + playerNumber + " меньше того, что загадал компьютер");
                 playerNumber += 3;
             }
