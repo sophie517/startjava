@@ -1,51 +1,65 @@
 public class Calculator {
 
-    public int a;
-    public int b;
+    private int a;
+    private int b;
     private char sign;
+
+    public int getA() {
+        return a;
+    }
+
+    public void setA(int a) {
+        this.a = a;
+    }
+
+    public int getB() {
+        return b;
+    }
+
+    public void setB(int b) {
+        this.b = b;
+    }
 
     public char getSign() {
         return sign;
     }
 
     public void setSign(char sign) {
-        if (sign != '/' && sign != '+' && sign != '-' && sign != '*' && sign != '%' && sign != '^') {
-            System.out.println("Эта операция не поддерживается");
-            this.sign = '?';
-        }
-        else {
-            this.sign = sign;
-        }
+        this.sign = sign;
     }
 
-    void calculate(int a, int b, char sign) {
-        if (sign != '?') {
+    void calculate() {
+        if (sign != '/' && sign != '+' && sign != '-' && sign != '*' && sign != '%' && sign != '^') {
+            System.out.println("Эта операция не поддерживается");
+        } else if (sign == '/') {
+            double resultOfDivision = (double) a / b;
+
             System.out.print(a + " " + sign + " " + b + " = ");
+            System.out.printf("%.3f%n", resultOfDivision);
+        } else {
+            int result = 1;
+            
             switch (sign) {
                 case '+':
-                    System.out.println(a + b);;
+                    result = a + b;
                     break;
                 case '-':
-                    System.out.println(a - b);
+                    result = a - b;
                     break;
                 case '*':
-                    System.out.println(a * b);
+                    result = a * b;
                     break;
                 case '%':
-                    System.out.println(a % b);
+                    result = a % b;;
                     break;
                 case '^':
-                    int result = 1;
                     for (int i = 1; i <= b; i++) {
                         result *= a;
                     }
-                    System.out.println(result);
-                    break;
-                case '/':
-                    double resultOfDivision = (double) a / b;
-                    System.out.printf("%.5f%n", resultOfDivision);
                     break;
             }
+            System.out.println(a + " " + sign + " " + b + " = " + result);
         }
+        System.out.println();
     }
 }
