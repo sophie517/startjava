@@ -7,11 +7,7 @@ public class Jaeger {
     private int numOfKilledKaiju;
 
     public Jaeger() {
-        modelName = "";
-        weapon = "";
-        height = 0.0f;
-        weight = 0;
-        numOfKilledKaiju = 0;
+
     }
 
     public Jaeger(String modelName, String weapon, float height, int weight, int numOfKilledKaiju) {
