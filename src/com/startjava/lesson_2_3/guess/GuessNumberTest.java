@@ -13,7 +13,6 @@ public class GuessNumberTest {
         Player player2 = new Player(sc.nextLine());
 
         GuessNumber game = new GuessNumber(player1, player2);
-
         String playerAnswer = "yes";
 
         while (!playerAnswer.equals("no")) {
