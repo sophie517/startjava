@@ -1,4 +1,4 @@
-package com.startjava.lesson_2_3.calculator;
+package com.startjava.lesson_2_3_4.calculator;
 
 public class Calculator {
 
@@ -32,7 +32,7 @@ public class Calculator {
                 result = a * b;
                 break;
             case '%':
-                result = a % b;;
+                result = a % b;
                 break;
             case '^':
                 for (int i = 1; i <= b; i++) {
