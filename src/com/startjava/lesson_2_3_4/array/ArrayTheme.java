@@ -56,7 +56,6 @@ public class ArrayTheme {
         System.out.println("\n3. Удаление элементов массива");
         float[] array = new float[15];
         int len = array.length;
-        int numOfZeros = 0;
 
         for (int i = 0; i < len; i++) {
             array[i] = (float) Math.random();
@@ -65,7 +64,8 @@ public class ArrayTheme {
         System.out.println("Начальный массив: ");
         printArray(array);
 
-        float middleElement = array[len/2];
+        float middleElement = array[len / 2];
+        int numOfZeros = 0;
 
         for (int i = 0; i < len; i++) {
             if (array[i] > middleElement) {
@@ -88,13 +88,13 @@ public class ArrayTheme {
             array[i] = (char) (i + 65);
         }
 
-         while (numOfLetters > 0) {
-             for (int i = 26; i >= numOfLetters; i--) {
-                 System.out.print(array[i - 1]);
-             }
-             numOfLetters--;
-             System.out.println();
-         }
+        while (numOfLetters > 0) {
+            for (int i = 26; i >= numOfLetters; i--) {
+                System.out.print(array[i - 1]);
+            }
+            numOfLetters--;
+            System.out.println();
+        }
     }
 
     public static void fillArrayWithUniqueNumbers() {
@@ -179,7 +179,7 @@ public class ArrayTheme {
 
                 if (isLetterGuessed && mistakeCounter != 0) {
                     mistakeCounter--;
-                } else if (!isLetterGuessed){
+                } else if (!isLetterGuessed) {
                     mistakeCounter++;
                     wrongLetters.append(playerGuess).append(" ");
                     System.out.print("Ошибка!\n");
@@ -255,5 +255,4 @@ public class ArrayTheme {
         for (int i = 8; i < array.length - 1; i++) System.out.printf("%5.3f%s", array[i], ", ");
         System.out.printf("%5.3f", array[array.length - 1]);
     }
-
 }
