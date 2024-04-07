@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class ArrayTheme {
     public static void main(String[] args) throws InterruptedException {
         reverseArrayElements();
-        countFactorial();
+        calculateFactorial();
         deleteArrayElements();
         printAlphabet();
         fillArrayWithUniqueNumbers();
@@ -16,81 +16,81 @@ public class ArrayTheme {
 
     public static void reverseArrayElements() {
         System.out.println("\n1. Реверс значений массива");
-        int[] array = {4, 7, 6, 3, 2, 5, 1};
-        int len = array.length;
+        int[] ints = {4, 7, 6, 3, 2, 5, 1};
+        int len = ints.length;
 
-        System.out.printf("%15s", "До реверса: ");
-        printArray(array);
+        System.out.print("   До реверса: ");
+        printArray(ints);
 
-        for (int i = 0; i < len / 2; i++) {
-            int swap = array[i];
-            array[i] = array[len - 1 - i];
-            array[len - 1 - i] = swap;
+        for (int i = 0; i < len; i++) {
+            len--;
+            int swap = ints[i];
+            ints[i] = ints[len];
+            ints[len] = swap;
         }
 
         System.out.print("После реверса: ");
-        printArray(array);
+        printArray(ints);
     }
 
-    public static void countFactorial() {
+    public static void calculateFactorial() {
         System.out.println("\n2. Вычисление факториала");
-        int[] array = new int[10];
-        int product = 1;
+        int[] factorialNums = new int[10];
+        int len = factorialNums.length;
 
-        for (int i = 0; i <= 9; i++) {
-            array[i] = i;
+        for (int i = 0; i < len; i++) {
+            factorialNums[i] = i;
         }
 
-        for (int i = array[1]; i <= array[8]; i++) {
-            product *= i;
-        }
+        int factorial = 1;
 
-        for (int num : array) {
-            System.out.print((num == 0 || num >= 8) ? "" : num + " * ");
-            System.out.print((num == 8) ? num : "");
+        for (int i = factorialNums[1]; i < factorialNums[len - 1]; i++) {
+            factorial *= i;
+            System.out.print((i != factorialNums[len - 2]) ? factorialNums[i] + " * " : factorialNums[i]);
         }
-        System.out.println(" = " + product);
+        System.out.println(" = " + factorial);
     }
 
     public static void deleteArrayElements() {
         System.out.println("\n3. Удаление элементов массива");
-        float[] array = new float[15];
-        int len = array.length;
+        float[] floats = new float[15];
+        int len = floats.length;
 
         for (int i = 0; i < len; i++) {
-            array[i] = (float) Math.random();
+            floats[i] = (float) Math.random();
         }
 
-        System.out.println("Начальный массив: ");
-        printArray(array);
+        System.out.println("Исходный массив: ");
+        printArray(floats);
 
-        float middleElement = array[len / 2];
+        float middleElement = floats[len / 2];
         int numOfZeros = 0;
 
         for (int i = 0; i < len; i++) {
-            if (array[i] > middleElement) {
-                array[i] = 0.0f;
-                numOfZeros += 1;
+            if (floats[i] > middleElement) {
+                floats[i] = 0.0f;
+                numOfZeros++;
             }
         }
 
         System.out.println("\n\nИзмененный массив: ");
-        printArray(array);
+        printArray(floats);
         System.out.println("\n\nКоличество обнуленных ячеек: " + numOfZeros);
     }
 
     public static void printAlphabet() {
         System.out.println("\n4. Вывод алфавита лесенкой");
-        char[] array = new char[26];
-        int numOfLetters = array.length;
+        char[] letters = new char[26];
+        int numOfLetters = letters.length;
+        int len = letters.length;
 
-        for (int i = 0; i < array.length; i++) {
-            array[i] = (char) (i + 65);
+        for (int i = 0; i < len; i++) {
+            letters[i] = (char) ('A' + i);
         }
 
         while (numOfLetters > 0) {
-            for (int i = 26; i >= numOfLetters; i--) {
-                System.out.print(array[i - 1]);
+            for (int i = len; i >= numOfLetters; i--) {
+                System.out.print(letters[i - 1]);
             }
             numOfLetters--;
             System.out.println();
@@ -99,25 +99,36 @@ public class ArrayTheme {
 
     public static void fillArrayWithUniqueNumbers() {
         System.out.println("\n5. Заполнение массива уникальными числами");
-        int[] array = new int[30];
+        int[] uniqueNums = new int[30];
         int currentSpot = 0;
-        while (currentSpot < array.length) {
-            creationOfNewNumber: {
-                int newNum = 60 + (int) (Math.random() * 40);
+        int len = uniqueNums.length;
+
+        while (currentSpot < len) {
+            boolean isNumNew = true;
+            int newNum = 60 + (int) (Math.random() * 40);
+
+            while (true) {
                 for (int i = 0; i <= currentSpot; i++) {
-                    if (newNum == array[i]) {
-                        break creationOfNewNumber;
+                    if (newNum == uniqueNums[i]) {
+                        isNumNew = false;
+                        break;
                     }
                 }
-                array[currentSpot] = newNum;
+                break;
+            }
+
+            if (isNumNew) {
+                uniqueNums[currentSpot] = newNum;
                 currentSpot++;
             }
         }
-        Arrays.sort(array);
+
+        Arrays.sort(uniqueNums);
         int startOfLine = 0;
-        while (startOfLine != 30) {
+
+        while (startOfLine != len) {
             for (int i = startOfLine; i < startOfLine + 10; i++) {
-                System.out.print(array[i] + " ");
+                System.out.print(uniqueNums[i] + " ");
             }
             System.out.println();
             startOfLine += 10;
@@ -157,7 +168,7 @@ public class ArrayTheme {
                             "---"};
 
         while (mistakeCounter < picture.length && guessedLettersCounter < len) {
-            start: {
+            while (true) {
                 boolean isLetterGuessed = false;
 
                 System.out.print("Введите букву: ");
@@ -165,7 +176,7 @@ public class ArrayTheme {
 
                 if (enteredLetters.toString().contains("" + playerGuess)) {
                     System.out.println("эту букву уже вводили!\n");
-                    break start;
+                    break;
                 }
 
                 for (int i = 0; i < len; i++) {
@@ -195,6 +206,7 @@ public class ArrayTheme {
                 System.out.println("Осталось " + (8 - mistakeCounter) + " попыток");
                 System.out.println("Ошибочные буквы: " + wrongLetters);
                 System.out.println();
+                break;
             }
         }
         System.out.print((guessedLettersCounter == len) ? "Вы победили!" : "Вы проиграли :(");
@@ -205,18 +217,18 @@ public class ArrayTheme {
         String str = "Java -- это C++, из которого убрали все пистолеты, ножи и дубинки. \n-- James Gosling";
         
         String[] words = str.split(" ");
-        String min = words[0];
-        String max = words[0];
+        String minLen = words[0];
+        String maxLen = words[0];
         int minIndex = 0;
         int maxIndex = 0;
         
         for (int i = 0; i < words.length; i++) {
-            if (min.length() > words[i].length()) {
-                min = words[i];
+            if (minLen.length() > words[i].length()) {
+                minLen = words[i];
                 minIndex = i;
             }
-            if (max.length() < words[i].length()) {
-                max = words[i];
+            if (maxLen.length() < words[i].length()) {
+                maxLen = words[i];
                 maxIndex = i;
             }
         }
