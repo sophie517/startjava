@@ -23,9 +23,8 @@ public class ArrayTheme {
         printArray(ints);
 
         for (int i = 0; i < len; i++) {
-            len--;
             int swap = ints[i];
-            ints[i] = ints[len];
+            ints[i] = ints[--len];
             ints[len] = swap;
         }
 
@@ -35,62 +34,62 @@ public class ArrayTheme {
 
     public static void calculateFactorial() {
         System.out.println("\n2. Вычисление факториала");
-        int[] factorialNums = new int[10];
-        int len = factorialNums.length;
+        int[] multipliers = new int[10];
+        int len = multipliers.length;
 
         for (int i = 0; i < len; i++) {
-            factorialNums[i] = i;
+            multipliers[i] = i;
         }
 
         int factorial = 1;
-
-        for (int i = factorialNums[1]; i < factorialNums[len - 1]; i++) {
+        for (int i = 1; i < len - 1; i++) {
             factorial *= i;
-            System.out.print((i != factorialNums[len - 2]) ? factorialNums[i] + " * " : factorialNums[i]);
+            System.out.print(multipliers[i]);
+            System.out.print((i != len - 2) ? " * " : "");
         }
         System.out.println(" = " + factorial);
     }
 
     public static void deleteArrayElements() {
         System.out.println("\n3. Удаление элементов массива");
-        float[] floats = new float[15];
-        int len = floats.length;
+        float[] randomFloats = new float[15];
+        int len = randomFloats.length;
 
         for (int i = 0; i < len; i++) {
-            floats[i] = (float) Math.random();
+            randomFloats[i] = (float) Math.random();
         }
 
         System.out.println("Исходный массив: ");
-        printArray(floats);
+        printArray(randomFloats);
 
-        float middleElement = floats[len / 2];
+        float middleElement = randomFloats[len / 2];
         int numOfZeros = 0;
 
         for (int i = 0; i < len; i++) {
-            if (floats[i] > middleElement) {
-                floats[i] = 0.0f;
+            if (randomFloats[i] > middleElement) {
+                randomFloats[i] = 0.0f;
                 numOfZeros++;
             }
         }
 
         System.out.println("\n\nИзмененный массив: ");
-        printArray(floats);
+        printArray(randomFloats);
         System.out.println("\n\nКоличество обнуленных ячеек: " + numOfZeros);
     }
 
     public static void printAlphabet() {
         System.out.println("\n4. Вывод алфавита лесенкой");
-        char[] letters = new char[26];
-        int numOfLetters = letters.length;
-        int len = letters.length;
+        char[] alphabet = new char[26];
+        int numOfLetters = alphabet.length;
+        int len = alphabet.length;
 
         for (int i = 0; i < len; i++) {
-            letters[i] = (char) ('A' + i);
+            alphabet[i] = (char) ('A' + i);
         }
 
         while (numOfLetters > 0) {
             for (int i = len; i >= numOfLetters; i--) {
-                System.out.print(letters[i - 1]);
+                System.out.print(alphabet[i - 1]);
             }
             numOfLetters--;
             System.out.println();
@@ -104,20 +103,20 @@ public class ArrayTheme {
         int len = uniqueNums.length;
 
         while (currentSpot < len) {
-            boolean isNumNew = true;
+            boolean isUnique = true;
             int newNum = 60 + (int) (Math.random() * 40);
 
             while (true) {
                 for (int i = 0; i <= currentSpot; i++) {
                     if (newNum == uniqueNums[i]) {
-                        isNumNew = false;
+                        isUnique = false;
                         break;
                     }
                 }
                 break;
             }
 
-            if (isNumNew) {
+            if (isUnique) {
                 uniqueNums[currentSpot] = newNum;
                 currentSpot++;
             }
@@ -137,28 +136,15 @@ public class ArrayTheme {
 
     public static void playHangmanGame() {
         System.out.println("\n6. Игра “Виселица”");
-        System.out.println("У вас 8 попыток угадать слово");
-        char[] word = {'в', 'о', 'д', 'о', 'л', 'а', 'з'};
-        float choiceOfWord = (float) Math.random();
-
-        if (choiceOfWord < 0.2) {
-            word = new char[]{'в', 'т', 'о', 'р', 'н', 'и', 'к'};
-        } else if (choiceOfWord < 0.4) {
-            word = new char[]{'о', 'в', 'ч', 'а', 'р', 'к', 'а'};
-        } else if (choiceOfWord < 0.6) {
-            word = new char[]{'к', 'о', 'т', 'л', 'е', 'т', 'а'};
-        } else if (choiceOfWord < 0.8) {
-            word = new char[]{'а', 'й', 'с', 'б', 'е', 'р', 'г'};
-        }
-
-        Scanner sc = new Scanner(System.in);
+        String[] words = {"водолаз", "вторник", "овчарка", "котлета", "айсберг"};
+        String hiddenWord = words[(int) (Math.random() * words.length)];
+        Scanner sc = new Scanner(System.in, "cp866");
         StringBuilder enteredLetters = new StringBuilder();
         StringBuilder wordStatus = new StringBuilder("_______");
-        int guessedLettersCounter = 0;
         int mistakeCounter = 0;
         StringBuilder wrongLetters = new StringBuilder();
-        int len = word.length;
-        String[] picture = {" -------",
+        int len = hiddenWord.length();
+        String[] gallows = {" -------",
                             " |     |",
                             " |     O",
                             " |   --|--",
@@ -166,8 +152,10 @@ public class ArrayTheme {
                             " |    / \\",
                             " | ",
                             "---"};
+        int maxNumOfMistakes = gallows.length;
 
-        while (mistakeCounter < picture.length && guessedLettersCounter < len) {
+        System.out.println("У вас " + maxNumOfMistakes + " попыток угадать слово");
+        while (mistakeCounter < maxNumOfMistakes && !hiddenWord.contentEquals(wordStatus)) {
             while (true) {
                 boolean isLetterGuessed = false;
 
@@ -179,14 +167,16 @@ public class ArrayTheme {
                     break;
                 }
 
-                for (int i = 0; i < len; i++) {
-                    if (word[i] == playerGuess) {
-                        wordStatus.replace(i, i + 1, ("" + playerGuess));
+                int index = 0;
+                while (index < len) {
+                    int indexOfLetter = hiddenWord.indexOf(playerGuess, index);
+                    if (indexOfLetter >= index) {
+                        wordStatus.setCharAt(indexOfLetter, playerGuess);
                         isLetterGuessed = true;
-                        guessedLettersCounter++;
                     }
-                    enteredLetters.append(" ").append(playerGuess);
+                    index++;
                 }
+                enteredLetters.append(" ").append(playerGuess);
 
                 if (isLetterGuessed && mistakeCounter != 0) {
                     mistakeCounter--;
@@ -195,21 +185,21 @@ public class ArrayTheme {
                     wrongLetters.append(playerGuess).append(" ");
                     System.out.print("Ошибка!\n");
                     for (int j = 0; j < mistakeCounter; j++) {
-                        System.out.println(picture[j]);
+                        System.out.println(gallows[j]);
                     }
-                    for (int j = 0; j < 8 - mistakeCounter; j++) {
+                    for (int j = 0; j < maxNumOfMistakes - mistakeCounter; j++) {
                         System.out.println();
                     }
                 }
 
                 System.out.println("\nСлово: " + wordStatus);
-                System.out.println("Осталось " + (8 - mistakeCounter) + " попыток");
+                System.out.println("Осталось " + (maxNumOfMistakes - mistakeCounter) + " попыток");
                 System.out.println("Ошибочные буквы: " + wrongLetters);
                 System.out.println();
                 break;
             }
         }
-        System.out.print((guessedLettersCounter == len) ? "Вы победили!" : "Вы проиграли :(");
+        System.out.print((mistakeCounter < maxNumOfMistakes) ? "Вы победили!" : "Вы проиграли :(");
     }
 
     private static void printTextWithEffect() throws InterruptedException {
@@ -262,9 +252,10 @@ public class ArrayTheme {
     }
 
     private static void printArray(float[] array) {
-        for (int i = 0; i < 8; i++) System.out.printf("%5.3f%s", array[i], ", ");
+        int len = array.length;
+        for (int i = 0; i <= len / 2; i++) System.out.printf("%5.3f%s", array[i], ", ");
         System.out.println();
-        for (int i = 8; i < array.length - 1; i++) System.out.printf("%5.3f%s", array[i], ", ");
-        System.out.printf("%5.3f", array[array.length - 1]);
+        for (int i = len / 2 + 1; i < len - 1; i++) System.out.printf("%5.3f%s", array[i], ", ");
+        System.out.printf("%5.3f", array[len - 1]);
     }
 }
