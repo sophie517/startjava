@@ -45,9 +45,9 @@ public class ArrayTheme {
         for (int i = 1; i < len - 1; i++) {
             factorial *= i;
             System.out.print(multipliers[i]);
-            System.out.print((i != len - 2) ? " * " : "");
+            System.out.print((i != len - 2) ? " * " : " = ");
         }
-        System.out.println(" = " + factorial);
+        System.out.println(factorial);
     }
 
     public static void deleteArrayElements() {
@@ -136,14 +136,13 @@ public class ArrayTheme {
 
     public static void playHangmanGame() {
         System.out.println("\n6. Игра “Виселица”");
-        String[] words = {"водолаз", "вторник", "овчарка", "котлета", "айсберг"};
+        String[] words = {"ВОДОЛАЗ", "ВТОРНИК", "ОВЧАРКА", "КОТЛЕТА", "АЙСБЕРГ"};
         String hiddenWord = words[(int) (Math.random() * words.length)];
         Scanner sc = new Scanner(System.in, "cp866");
-        StringBuilder enteredLetters = new StringBuilder();
-        StringBuilder wordStatus = new StringBuilder("_______");
+        int len = hiddenWord.length();
+        StringBuilder maskWord = new StringBuilder("_".repeat(len));
         int mistakeCounter = 0;
         StringBuilder wrongLetters = new StringBuilder();
-        int len = hiddenWord.length();
         String[] gallows = {" -------",
                             " |     |",
                             " |     O",
@@ -152,17 +151,18 @@ public class ArrayTheme {
                             " |    / \\",
                             " | ",
                             "---"};
-        int maxNumOfMistakes = gallows.length;
+        int maxAttempts = gallows.length;
 
-        System.out.println("У вас " + maxNumOfMistakes + " попыток угадать слово");
-        while (mistakeCounter < maxNumOfMistakes && !hiddenWord.contentEquals(wordStatus)) {
+        System.out.println("У вас " + maxAttempts + " попыток угадать слово");
+        while (mistakeCounter < maxAttempts && !hiddenWord.contentEquals(maskWord)) {
             while (true) {
                 boolean isLetterGuessed = false;
 
                 System.out.print("Введите букву: ");
-                char playerGuess = sc.next().toLowerCase().charAt(0);
+                char playerGuess = sc.next().toUpperCase().charAt(0);
 
-                if (enteredLetters.toString().contains("" + playerGuess)) {
+                if (maskWord.toString().contains("" + playerGuess) ||
+                        wrongLetters.toString().contains("" + playerGuess)) {
                     System.out.println("эту букву уже вводили!\n");
                     break;
                 }
@@ -171,12 +171,11 @@ public class ArrayTheme {
                 while (index < len) {
                     int indexOfLetter = hiddenWord.indexOf(playerGuess, index);
                     if (indexOfLetter >= index) {
-                        wordStatus.setCharAt(indexOfLetter, playerGuess);
+                        maskWord.setCharAt(indexOfLetter, playerGuess);
                         isLetterGuessed = true;
                     }
                     index++;
                 }
-                enteredLetters.append(" ").append(playerGuess);
 
                 if (isLetterGuessed && mistakeCounter != 0) {
                     mistakeCounter--;
@@ -184,78 +183,73 @@ public class ArrayTheme {
                     mistakeCounter++;
                     wrongLetters.append(playerGuess).append(" ");
                     System.out.print("Ошибка!\n");
-                    for (int j = 0; j < mistakeCounter; j++) {
-                        System.out.println(gallows[j]);
-                    }
-                    for (int j = 0; j < maxNumOfMistakes - mistakeCounter; j++) {
-                        System.out.println();
-                    }
                 }
 
-                System.out.println("\nСлово: " + wordStatus);
-                System.out.println("Осталось " + (maxNumOfMistakes - mistakeCounter) + " попыток");
+                for (int i = 0; i < mistakeCounter; i++) {
+                    System.out.println(gallows[i]);
+                }
+                for (int i = 0; i < maxAttempts - mistakeCounter; i++) {
+                    System.out.println();
+                }
+
+                System.out.println("\nСлово: " + maskWord);
+                System.out.println("Осталось " + (maxAttempts - mistakeCounter) + " попыток");
                 System.out.println("Ошибочные буквы: " + wrongLetters);
                 System.out.println();
                 break;
             }
         }
-        System.out.print((mistakeCounter < maxNumOfMistakes) ? "Вы победили!" : "Вы проиграли :(");
+        System.out.print((mistakeCounter < maxAttempts) ? "Вы победили!" : "Вы проиграли :(");
     }
 
     private static void printTextWithEffect() throws InterruptedException {
         System.out.println("\n\n7. Вывод текста с эффектом пишущей машинки");
-        String str = "Java -- это C++, из которого убрали все пистолеты, ножи и дубинки. \n-- James Gosling";
-        
-        String[] words = str.split(" ");
+        String text = "Java -- это C++, из которого убрали все пистолеты, ножи и дубинки. \n-- James Gosling";
+        char[] symbols = text.toCharArray();
+        String newText = "";
+
+        for (char symbol : symbols) {
+            if ((symbol >= '!' && symbol <= '"') || (symbol >= '(' && symbol <= ')') ||
+                    (symbol >= ',' && symbol <= '.') || (symbol >= ':' && symbol <= ';') || symbol == '?') {
+                newText += " ";
+            } else {
+                newText += "" + symbol;
+            }
+        }
+
+        String[] words = newText.split(" ");
         String minLen = words[0];
         String maxLen = words[0];
-        int minIndex = 0;
-        int maxIndex = 0;
-        
+
         for (int i = 0; i < words.length; i++) {
-            if (minLen.length() > words[i].length()) {
+            if (minLen.length() > words[i].length() && !words[i].isBlank()) {
                 minLen = words[i];
-                minIndex = i;
             }
             if (maxLen.length() < words[i].length()) {
                 maxLen = words[i];
-                maxIndex = i;
             }
         }
-
-        int swap;
-        if (minIndex > maxIndex) {
-            swap = minIndex;
-            minIndex = maxIndex;
-            maxIndex = swap;
-        }
-
-        StringBuilder fixedStr = new StringBuilder();
-        for (int i = minIndex; i <= maxIndex; i++) {
-            words[i] = words[i].toUpperCase();
-        }
-        for (String word : words) {
-            fixedStr.append(word).append(" ");
-        }
-
-        String[] letters = fixedStr.toString().split("");
-        for (String letter : letters) {
-            System.out.print(letter);
-            Thread.sleep(100);
-        }
+        System.out.println("Самое короткое слово: " + minLen);
+        System.out.println("Самое длинное слово: " + maxLen);
     }
 
     private static void printArray(int[] array) {
         System.out.print("[");
-        for (int i = 0; i < array.length - 1; i++) System.out.print(array[i] + ", ");
+        for (int i = 0; i < array.length - 1; i++) {
+            System.out.print(array[i] + ", ");
+        }
         System.out.println(array[array.length - 1] + "]");
     }
 
     private static void printArray(float[] array) {
         int len = array.length;
-        for (int i = 0; i <= len / 2; i++) System.out.printf("%5.3f%s", array[i], ", ");
+        for (int i = 0; i <= len / 2; i++) {
+            System.out.printf("%5.3f%s", array[i], ", ");
+        }
         System.out.println();
-        for (int i = len / 2 + 1; i < len - 1; i++) System.out.printf("%5.3f%s", array[i], ", ");
+        for (int i = len / 2 + 1; i < len - 1; i++) {
+            System.out.printf("%5.3f%s", array[i], ", ");
+        }
         System.out.printf("%5.3f", array[len - 1]);
     }
 }
