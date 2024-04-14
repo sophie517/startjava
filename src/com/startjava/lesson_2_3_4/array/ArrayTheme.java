@@ -204,7 +204,7 @@ public class ArrayTheme {
 
     private static void printTextWithEffect() throws InterruptedException {
         System.out.println("\n\n7. Вывод текста с эффектом пишущей машинки");
-        String text = "Java -- это C++, из которого убрали все пистолеты, ножи и дубинки. \n-- James Gosling";
+        String text = "Java - это C++, из которого убрали все пистолеты, ножи и дубинки. \n- James Gosling";
         char[] symbols = text.toCharArray();
         String newText = "";
 
@@ -218,19 +218,36 @@ public class ArrayTheme {
         }
 
         String[] words = newText.split(" ");
-        String minLen = words[0];
-        String maxLen = words[0];
+        String minWord = words[0];
+        String maxWord = words[0];
 
-        for (int i = 0; i < words.length; i++) {
-            if (minLen.length() > words[i].length() && !words[i].isBlank()) {
-                minLen = words[i];
+        for (String word : words) {
+            if (minWord.length() > word.length() && !word.isBlank()) {
+                minWord = word;
             }
-            if (maxLen.length() < words[i].length()) {
-                maxLen = words[i];
+            if (maxWord.length() < word.length()) {
+                maxWord = word;
             }
         }
-        System.out.println("Самое короткое слово: " + minLen);
-        System.out.println("Самое длинное слово: " + maxLen);
+
+        int indexStart = newText.indexOf(" " + minWord + " ") + 1;
+        int indexEnd = newText.indexOf(" " + maxWord + " ") + 1;
+
+        if (indexStart > indexEnd) {
+            int swap = indexStart;
+            indexStart = indexEnd;
+            indexEnd = swap;
+            maxWord = minWord;
+        }
+
+        String changedPart = text.substring(indexStart, indexEnd + maxWord.length());
+        String fixedText = text.replace(changedPart, changedPart.toUpperCase());
+
+        String[] letters = fixedText.split("");
+        for (String letter : letters) {
+            System.out.print(letter);
+            Thread.sleep(100);
+        }
     }
 
     private static void printArray(int[] array) {
