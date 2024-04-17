@@ -10,18 +10,19 @@ public class CalculatorTest {
         
         while (!userAnswer.equals("no")) {
             if (userAnswer.equals("yes")) {
-                System.out.print("\nВведите первое число: ");
-                calculator.setA(sc.nextInt());
-                System.out.print("Введите знак математической операции: ");
-                calculator.setSign(sc.next().charAt(0));
-                System.out.print("Введите второе число: ");
-                calculator.setB(sc.nextInt());
+                System.out.print("\nВведите математическое выражение: ");
+                String expression = sc.nextLine();
+                String[] partsOfExpression = expression.split(" ");
+                
+                calculator.setNum1(Integer.parseInt(partsOfExpression[0]));
+                calculator.setSign(partsOfExpression[1].charAt(0));
+                calculator.setNum2(Integer.parseInt(partsOfExpression[2]));
 
                 calculator.calculate();
-                sc.nextLine();
             } 
             System.out.print("Хотите продолжить вычисления? [yes/no]: ");
-            userAnswer = sc.nextLine();
+            userAnswer = sc.next();
+            sc.nextLine();
         }
     }
 }

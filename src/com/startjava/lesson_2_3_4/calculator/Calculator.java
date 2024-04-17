@@ -1,17 +1,18 @@
 package com.startjava.lesson_2_3_4.calculator;
 
-public class Calculator {
+import java.lang.Math;
 
-    private int a;
-    private int b;
+public class Calculator {
+    private int num1;
+    private int num2;
     private char sign;
 
-    public void setA(int a) {
-        this.a = a;
+    public void setNum1(int num1) {
+        this.num1 = num1;
     }
 
-    public void setB(int b) {
-        this.b = b;
+    public void setNum2(int num2) {
+        this.num2 = num2;
     }
 
     public void setSign(char sign) {
@@ -19,37 +20,41 @@ public class Calculator {
     }
 
     void calculate() {
-        int result = 1;
+        double result;
 
         switch (sign) {
             case '+':
-                result = a + b;
+                result = num1 + num2;
                 break;
             case '-':
-                result = a - b;
+                result = num1 - num2;
                 break;
             case '*':
-                result = a * b;
+                result = num1 * num2;
                 break;
             case '%':
-                result = a % b;
+                result = num1 % num2;
                 break;
             case '^':
-                for (int i = 1; i <= b; i++) {
-                    result *= a;
-                }
+                result = Math.pow(num1, num2);
                 break;
             case '/':
-                double resultOfDivision = (double) a / b;
-
-                System.out.print(a + " " + sign + " " + b + " = ");
-                System.out.printf("%.3f%n%n", resultOfDivision);
-                return;
+                result = (double) num1 / num2;
+                break;
             default:
-                System.out.println("Эта операция не поддерживается\n");
-                return;
+                System.out.println("Ошибка: знак " + sign + " не поддерживается");
+                result = Double.NaN;
+                break;
         }
-        System.out.println(a + " " + sign + " " + b + " = " + result);
+
+        if (!Double.isNaN(result)) {
+            System.out.print(num1 + " " + sign + " " + num2 + " = ");
+            if (result % 1 == 0) {
+                System.out.println((int) result);
+            } else {
+                System.out.printf("%.3f%n", result);
+            }
+        }
         System.out.println();
     }
 }
