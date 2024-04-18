@@ -5,20 +5,25 @@ import java.util.Scanner;
 public class CalculatorTest {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        Calculator calculator = new Calculator();
         String userAnswer = "yes";
         
         while (!userAnswer.equals("no")) {
             if (userAnswer.equals("yes")) {
                 System.out.print("\nВведите математическое выражение: ");
                 String expression = sc.nextLine();
-                String[] partsOfExpression = expression.split(" ");
-                
-                calculator.setNum1(Integer.parseInt(partsOfExpression[0]));
-                calculator.setSign(partsOfExpression[1].charAt(0));
-                calculator.setNum2(Integer.parseInt(partsOfExpression[2]));
+                Calculator calculator = new Calculator(expression);
+                double result = calculator.calculate();
 
-                calculator.calculate();
+                if (!Double.isNaN(result)) {
+                    System.out.print(expression + " = ");
+                    if (result % 1 == 0) {
+                        System.out.println((int) result);
+                    } else {
+                        System.out.printf("%.3f%n", result);
+                    }
+                } else {
+                    System.out.println("Ошибка: знак " + calculator.getSign() + " не поддерживается");
+                }
             } 
             System.out.print("Хотите продолжить вычисления? [yes/no]: ");
             userAnswer = sc.next();

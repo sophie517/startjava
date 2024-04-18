@@ -7,54 +7,33 @@ public class Calculator {
     private int num2;
     private char sign;
 
-    public void setNum1(int num1) {
-        this.num1 = num1;
+    public Calculator(String expression) {
+        String[] parts = expression.split(" ");
+        num1 = Integer.parseInt(parts[0]);
+        num2 = Integer.parseInt(parts[2]);
+        sign = parts[1].charAt(0);
     }
 
-    public void setNum2(int num2) {
-        this.num2 = num2;
+    public char getSign() {
+        return sign;
     }
 
-    public void setSign(char sign) {
-        this.sign = sign;
-    }
-
-    void calculate() {
-        double result;
-
+    double calculate() {
         switch (sign) {
             case '+':
-                result = num1 + num2;
-                break;
+                return num1 + num2;
             case '-':
-                result = num1 - num2;
-                break;
+                return num1 - num2;
             case '*':
-                result = num1 * num2;
-                break;
+                return num1 * num2;
             case '%':
-                result = num1 % num2;
-                break;
+                return num1 % num2;
             case '^':
-                result = Math.pow(num1, num2);
-                break;
+                return Math.pow(num1, num2);
             case '/':
-                result = (double) num1 / num2;
-                break;
+                return (double) num1 / num2;
             default:
-                System.out.println("Ошибка: знак " + sign + " не поддерживается");
-                result = Double.NaN;
-                break;
+                return Double.NaN;
         }
-
-        if (!Double.isNaN(result)) {
-            System.out.print(num1 + " " + sign + " " + num2 + " = ");
-            if (result % 1 == 0) {
-                System.out.println((int) result);
-            } else {
-                System.out.printf("%.3f%n", result);
-            }
-        }
-        System.out.println();
     }
 }
