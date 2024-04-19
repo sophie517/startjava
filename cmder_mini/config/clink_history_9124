@@ -1,3 +1,0 @@
-git add Calculator.java CalculatorTest.java
-git commit -m "fix all problems"
-git push -u origin master
