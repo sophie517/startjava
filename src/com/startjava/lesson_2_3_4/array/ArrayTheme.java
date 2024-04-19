@@ -80,13 +80,13 @@ public class ArrayTheme {
     public static void printAlphabet() {
         System.out.println("\n4. Вывод алфавита лесенкой");
         char[] alphabet = new char[26];
-        int numOfLetters = alphabet.length;
         int len = alphabet.length;
 
         for (int i = 0; i < len; i++) {
             alphabet[i] = (char) ('A' + i);
         }
 
+        int numOfLetters = alphabet.length;
         while (numOfLetters > 0) {
             for (int i = len; i >= numOfLetters; i--) {
                 System.out.print(alphabet[i - 1]);
@@ -142,44 +142,45 @@ public class ArrayTheme {
         int len = hiddenWord.length();
         StringBuilder maskWord = new StringBuilder("_".repeat(len));
         int mistakeCounter = 0;
+        
         StringBuilder wrongLetters = new StringBuilder();
         String[] gallows = {" -------",
-                            " |     |",
-                            " |     O",
-                            " |   --|--",
-                            " |     |",
-                            " |    / \\",
-                            " | ",
-                            "---"};
+                " |     |",
+                " |     O",
+                " |   --|--",
+                " |     |",
+                " |    / \\",
+                " | ",
+                "---"};
         int maxAttempts = gallows.length;
 
         System.out.println("У вас " + maxAttempts + " попыток угадать слово");
-        while (mistakeCounter < maxAttempts && !hiddenWord.contentEquals(maskWord)) {
+        boolean hasEndCondition = false;
+        while (!hasEndCondition) {
             while (true) {
-                boolean isLetterGuessed = false;
+                boolean isGuessedLetter = false;
 
                 System.out.print("Введите букву: ");
                 char playerGuess = sc.next().toUpperCase().charAt(0);
 
-                if (maskWord.toString().contains("" + playerGuess) ||
-                        wrongLetters.toString().contains("" + playerGuess)) {
+                boolean isEnteredLetter = maskWord.toString().contains("" + playerGuess) ||
+                        wrongLetters.toString().contains("" + playerGuess);
+                if (isEnteredLetter) {
                     System.out.println("эту букву уже вводили!\n");
                     break;
                 }
 
-                int index = 0;
-                while (index < len) {
-                    int indexOfLetter = hiddenWord.indexOf(playerGuess, index);
-                    if (indexOfLetter >= index) {
-                        maskWord.setCharAt(indexOfLetter, playerGuess);
-                        isLetterGuessed = true;
+                for (int i = 0; i < len; i++) {
+                    char checkLetter = hiddenWord.charAt(i);
+                    if (checkLetter == playerGuess) {
+                        maskWord.setCharAt(i, playerGuess);
+                        isGuessedLetter = true;
                     }
-                    index++;
                 }
 
-                if (isLetterGuessed && mistakeCounter != 0) {
+                if (isGuessedLetter && mistakeCounter != 0) {
                     mistakeCounter--;
-                } else if (!isLetterGuessed) {
+                } else if (!isGuessedLetter) {
                     mistakeCounter++;
                     wrongLetters.append(playerGuess).append(" ");
                     System.out.print("Ошибка!\n");
@@ -198,25 +199,16 @@ public class ArrayTheme {
                 System.out.println();
                 break;
             }
+            hasEndCondition = mistakeCounter >= maxAttempts || hiddenWord.contentEquals(maskWord);
         }
         System.out.print((mistakeCounter < maxAttempts) ? "Вы победили!" : "Вы проиграли :(");
     }
 
-    private static void printTextWithEffect() throws InterruptedException {
+    public static void printTextWithEffect() throws InterruptedException {
         System.out.println("\n\n7. Вывод текста с эффектом пишущей машинки");
         String text = "Java - это C++, из которого убрали все пистолеты, ножи и дубинки. \n- James Gosling";
-        char[] symbols = text.toCharArray();
-        String newText = "";
-
-        for (char symbol : symbols) {
-            if ((symbol >= '!' && symbol <= '"') || (symbol >= '(' && symbol <= ')') ||
-                    (symbol >= ',' && symbol <= '.') || (symbol >= ':' && symbol <= ';') || symbol == '?') {
-                newText += " ";
-            } else {
-                newText += "" + symbol;
-            }
-        }
-
+        
+        String newText = text.replaceAll("\\p{P}", " ");
         String[] words = newText.split(" ");
         String minWord = words[0];
         String maxWord = words[0];
@@ -224,8 +216,7 @@ public class ArrayTheme {
         for (String word : words) {
             if (minWord.length() > word.length() && !word.isBlank()) {
                 minWord = word;
-            }
-            if (maxWord.length() < word.length()) {
+            } else if (maxWord.length() < word.length()) {
                 maxWord = word;
             }
         }
