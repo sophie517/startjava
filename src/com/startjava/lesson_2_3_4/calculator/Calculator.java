@@ -3,22 +3,15 @@ package com.startjava.lesson_2_3_4.calculator;
 import java.lang.Math;
 
 public class Calculator {
-    private int num1;
-    private int num2;
-    private char sign;
+    private String expression;
 
-    public Calculator(String expression) {
+    public double calculate(String expression) {
+        this.expression = expression;
         String[] parts = expression.split(" ");
-        num1 = Integer.parseInt(parts[0]);
-        num2 = Integer.parseInt(parts[2]);
-        sign = parts[1].charAt(0);
-    }
+        int num1 = Integer.parseInt(parts[0]);
+        int num2 = Integer.parseInt(parts[2]);
+        char sign = parts[1].charAt(0);
 
-    public char getSign() {
-        return sign;
-    }
-
-    double calculate() {
         switch (sign) {
             case '+':
                 return num1 + num2;
@@ -33,7 +26,19 @@ public class Calculator {
             case '/':
                 return (double) num1 / num2;
             default:
+                System.out.println("Ошибка: знак " + sign + " не поддерживается");
                 return Double.NaN;
+        }
+    }
+
+    public void printResult(double result) {
+        if (!Double.isNaN(result)) {
+            System.out.print(expression + " = ");
+            if (result % 1 == 0) {
+                System.out.println((int) result);
+            } else {
+                System.out.printf("%.3f%n", result);
+            }
         }
     }
 }

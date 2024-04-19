@@ -11,19 +11,9 @@ public class CalculatorTest {
             if (userAnswer.equals("yes")) {
                 System.out.print("\nВведите математическое выражение: ");
                 String expression = sc.nextLine();
-                Calculator calculator = new Calculator(expression);
-                double result = calculator.calculate();
-
-                if (!Double.isNaN(result)) {
-                    System.out.print(expression + " = ");
-                    if (result % 1 == 0) {
-                        System.out.println((int) result);
-                    } else {
-                        System.out.printf("%.3f%n", result);
-                    }
-                } else {
-                    System.out.println("Ошибка: знак " + calculator.getSign() + " не поддерживается");
-                }
+                Calculator calculator = new Calculator();
+                double result = calculator.calculate(expression);
+                calculator.printResult(result);
             }
             System.out.print("Хотите продолжить вычисления? [yes/no]: ");
             userAnswer = sc.next();
