@@ -5,40 +5,36 @@ import java.lang.Math;
 public class Calculator {
     private String expression;
 
-    public double calculate(String expression) {
-        this.expression = expression;
+    public static double calculate(String expression) {
+        if (expression.length() < 5) {
+            throw new RuntimeException("Неверная длина выражения");
+        }
+
         String[] parts = expression.split(" ");
-        int num1 = Integer.parseInt(parts[0]);
-        int num2 = Integer.parseInt(parts[2]);
+        double arg1 = Double.parseDouble(parts[0]);
+        double arg2 = Double.parseDouble(parts[2]);
         char sign = parts[1].charAt(0);
 
-        switch (sign) {
-            case '+':
-                return num1 + num2;
-            case '-':
-                return num1 - num2;
-            case '*':
-                return num1 * num2;
-            case '%':
-                return num1 % num2;
-            case '^':
-                return Math.pow(num1, num2);
-            case '/':
-                return (double) num1 / num2;
-            default:
-                System.out.println("Ошибка: знак " + sign + " не поддерживается");
-                return Double.NaN;
+        if (arg1 % 1 != 0 || arg2 % 1 != 0) {
+            throw new IllegalArgumentException("Числа должны быть целыми");
+        } else if (arg1 < 0 || arg2 < 0) {
+            throw new IllegalArgumentException("Числа должны быть положительными");
         }
-    }
 
-    public void printResult(double result) {
-        if (!Double.isNaN(result)) {
-            System.out.print(expression + " = ");
-            if (result % 1 == 0) {
-                System.out.println((int) result);
-            } else {
-                System.out.printf("%.3f%n", result);
+        return switch (sign) {
+            case '+' -> arg1 + arg2;
+            case '-' -> arg1 - arg2;
+            case '*' -> arg1 * arg2;
+            case '%' -> arg1 % arg2;
+            case '^' -> Math.pow(arg1, arg2);
+            case '/' -> {
+                if (arg2 == 0) {
+                    throw new ArithmeticException("На ноль делить нельзя");
+                } else yield arg1 / arg2;
             }
-        }
+            default -> {
+                throw new IllegalArgumentException("Ошибка: знак " + sign + " не поддерживается");
+            }
+        };
     }
 }
