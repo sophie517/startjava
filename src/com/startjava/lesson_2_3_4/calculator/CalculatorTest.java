@@ -14,7 +14,7 @@ public class CalculatorTest {
                 try {
                     double result = Calculator.calculate(expression);
                     printResult(expression, result);
-                } catch (Exception e) {
+                } catch (RuntimeException e) {
                     System.out.println(e.getMessage());
                 }
             }

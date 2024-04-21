@@ -17,8 +17,7 @@ public class GuessNumber {
         
         Player currentPlayer = player1;
         for (int i = 0; i < 2; i++) {
-            currentPlayer.clearNumbers();
-            currentPlayer.setAttempt(-1);
+            currentPlayer.clear();
             currentPlayer = player2;
         }
         
@@ -29,22 +28,14 @@ public class GuessNumber {
         while (true) {
             System.out.print(currentPlayer.getName() + ", введи число: ");
             currentPlayer.setNumber(sc.nextInt());
-            currentPlayer.setAttempt(currentPlayer.getAttempt() + 1);
-            currentPlayer.setAllNumbers(currentPlayer.getNumber());
+            currentPlayer.addNumber(currentPlayer.getNumber());
 
             if (currentPlayer.getNumber() == hiddenNumber) {
                 System.out.println("\nИгрок " + currentPlayer.getName() + " угадал число " +
-                        currentPlayer.getNumber() + " с " + (currentPlayer.getAttempt() + 1) + " попытки\n");
+                        currentPlayer.getNumber() + " с " + (currentPlayer.getAttempt()) + " попытки\n");
                 break;
             }
-
-            if (currentPlayer.getNumber() > hiddenNumber) {
-                System.out.println("Число " + currentPlayer.getNumber() +
-                        " больше того, что загадал компьютер\n");
-            } else {
-                System.out.println("Число " + currentPlayer.getNumber() +
-                        " меньше того, что загадал компьютер\n");
-            }
+            estimateNumber(currentPlayer, hiddenNumber);
 
             if (currentPlayer.getAttempt() == maxAttempts - 1) {
                 System.out.println("У " + currentPlayer.getName() + " закончились попытки\n");
@@ -54,7 +45,21 @@ public class GuessNumber {
             }
             currentPlayer = (currentPlayer == player1) ? player2 : player1;
         }
-        currentPlayer = player1;
+        printAttempts();
+    }
+
+    public void estimateNumber(Player currentPlayer, int hiddenNumber) {
+        if (currentPlayer.getNumber() > hiddenNumber) {
+            System.out.println("Число " + currentPlayer.getNumber() +
+                    " больше того, что загадал компьютер\n");
+        } else {
+            System.out.println("Число " + currentPlayer.getNumber() +
+                    " меньше того, что загадал компьютер\n");
+        }
+    }
+
+    public void printAttempts() {
+        Player currentPlayer = player1;
         for (int i = 0; i < 2; i++) {
             System.out.println("Попытки " + currentPlayer.getName() + ": ");
             for (int nums : currentPlayer.getAllNumbers()) {
