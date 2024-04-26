@@ -77,7 +77,8 @@ public class GuessNumber {
     public Player changePlayer() {
         if (currentPlayer == players[0]) {
             return players[1];
-        } else if (currentPlayer == players[1]) {
+        }
+        if (currentPlayer == players[1]) {
             return players[2];
         }
         return players[0];
