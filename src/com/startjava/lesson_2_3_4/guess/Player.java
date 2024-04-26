@@ -5,8 +5,10 @@ import java.util.Arrays;
 public class Player {
     private String name;
     private int[] allNumbers = new int[10];
-    private int attempt;
-    private int numOfWins;
+    private int attempts;
+    private int wins;
+    private static final int MIN_VALUE = 0;
+    private static final int MAX_VALUE = 100;
 
     public Player(String name) {
         this.name = name;
@@ -17,34 +19,34 @@ public class Player {
     }
 
     public int[] getAllNumbers() {
-        return Arrays.copyOf(allNumbers, attempt);
+        return Arrays.copyOf(allNumbers, attempts);
     }
 
-    public int getAttempt() {
-        return attempt;
+    public int getAttempts() {
+        return attempts;
     }
 
-    public int getNumOfWins() {
-        return numOfWins;
+    public int getWins() {
+        return wins;
     }
 
-    public void setNumOfWins(int numOfWins) {
-        this.numOfWins = numOfWins;
+    public void setWins(int wins) {
+        this.wins = wins;
     }
 
-    public int takePlayerGuess() {
-        return getAllNumbers()[attempt - 1];
+    public int getLastNumber() {
+        return allNumbers[attempts - 1];
     }
 
     public void addNumber(int number) {
-        if (number <= 0 || number > 100) {
+        if (number <= MIN_VALUE || number > MAX_VALUE) {
             throw new RuntimeException("Число должно быть из полуинтервала (0, 100]");
         }
-        allNumbers[attempt++] = number;
+        allNumbers[attempts++] = number;
     }
 
     public void clear() {
-        Arrays.fill(allNumbers, 0, attempt, 0);
-        attempt = 0;
+        Arrays.fill(allNumbers, 0, attempts, 0);
+        attempts = 0;
     }
 }
