@@ -3,12 +3,13 @@ package com.startjava.lesson_2_3_4.guess;
 import java.util.Arrays;
 
 public class Player {
-    private String name;
-    private int[] allNumbers = new int[10];
-    private int attempts;
-    private int wins;
     private static final int MIN_VALUE = 0;
     private static final int MAX_VALUE = 100;
+    private static final int MAX_ATTEMPTS = 10;
+    private String name;
+    private int[] allNumbers = new int[MAX_ATTEMPTS];
+    private int attempts;
+    private int wins;
 
     public Player(String name) {
         this.name = name;
@@ -16,10 +17,6 @@ public class Player {
 
     public String getName() {
         return name;
-    }
-
-    public int[] getAllNumbers() {
-        return Arrays.copyOf(allNumbers, attempts);
     }
 
     public int getAttempts() {
@@ -30,12 +27,8 @@ public class Player {
         return wins;
     }
 
-    public void setWins(int wins) {
-        this.wins = wins;
-    }
-
-    public int getLastNumber() {
-        return allNumbers[attempts - 1];
+    public void setWin(int win) {
+        wins = win;
     }
 
     public void addNumber(int number) {
@@ -43,6 +36,14 @@ public class Player {
             throw new RuntimeException("Число должно быть из полуинтервала (0, 100]");
         }
         allNumbers[attempts++] = number;
+    }
+
+    public int[] getAllNumbers() {
+        return Arrays.copyOf(allNumbers, attempts);
+    }
+
+    public int getLastNumber() {
+        return allNumbers[attempts - 1];
     }
 
     public void clear() {
