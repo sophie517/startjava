@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class GuessNumber {
-    private static final int MAX_ATTEMPTS = 10;
+    public static final int MAX_ATTEMPTS = 10;
     private static final int ROUNDS = 3;
-    private static final int PLAYERS = 3;
+    public static final int PLAYERS = 3;
     private Player[] players = new Player[PLAYERS];
     private Player currentPlayer;
     private int currentPlayerIndex;
@@ -26,6 +26,7 @@ public class GuessNumber {
 
             hiddenNumber = 1 + (int) (Math.random() * 100);
             currentPlayer = players[0];
+            currentPlayerIndex = 0;
 
             while (true) {
                 inputPlayerGuess();
@@ -35,7 +36,7 @@ public class GuessNumber {
             }
             endRound();
         }
-        decideWinner();
+        System.out.println(decideWinner());
         endGame();
     }
 
@@ -83,7 +84,7 @@ public class GuessNumber {
     public boolean hasAttempts() {
         if (currentPlayer.getAttempts() == MAX_ATTEMPTS) {
             System.out.println("У " + currentPlayer.getName() + " закончились попытки\n");
-            if (currentPlayer == players[2]) {
+            if (currentPlayerIndex == PLAYERS - 1) {
                 return true;
             }
         }
@@ -112,11 +113,17 @@ public class GuessNumber {
         }
     }
 
-    public void decideWinner() {
-        boolean isDraw = players[0].getWins() == players[1].getWins() &&
-                players[1].getWins() == players[2].getWins();
+    public String decideWinner() {
+        boolean isDraw = true;
+        for (int i = 0; i < PLAYERS - 1; i++) {
+            if (players[i].getWins() != players[i + 1].getWins()) {
+                isDraw = false;
+                break;
+            }
+        }
+
         if (isDraw) {
-            System.out.println("\nПобедила дружба!");
+            return "\nПобедила дружба!";
         }
         
         Player winner = players[0];
@@ -125,7 +132,7 @@ public class GuessNumber {
                 winner = player;
             }
         }
-        System.out.println("\nПобедил игрок " + winner.getName());
+        return "\nПобедил игрок " + winner.getName();
     }
 
     public void endGame() {

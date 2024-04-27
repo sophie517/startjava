@@ -5,9 +5,8 @@ import java.util.Arrays;
 public class Player {
     private static final int MIN_VALUE = 0;
     private static final int MAX_VALUE = 100;
-    private static final int MAX_ATTEMPTS = 10;
     private String name;
-    private int[] allNumbers = new int[MAX_ATTEMPTS];
+    private int[] allNumbers = new int[GuessNumber.MAX_ATTEMPTS];
     private int attempts;
     private int wins;
 

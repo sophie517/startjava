@@ -3,7 +3,6 @@ package com.startjava.lesson_2_3_4.guess;
 import java.util.Scanner;
 
 public class GuessNumberTest {
-    private static final int PLAYERS = 3;
     private static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -21,8 +20,8 @@ public class GuessNumberTest {
     }
 
     public static String[] inputNames() {
-        String[] names = new String[PLAYERS];
-        for (int i = 0; i < PLAYERS; i++) {
+        String[] names = new String[GuessNumber.PLAYERS];
+        for (int i = 0; i < GuessNumber.PLAYERS; i++) {
             System.out.print("Введите имя игрока: ");
             names[i] = sc.nextLine();
         }
