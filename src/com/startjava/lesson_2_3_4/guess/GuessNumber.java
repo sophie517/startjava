@@ -30,8 +30,7 @@ public class GuessNumber {
 
             while (true) {
                 inputPlayerGuess();
-                if (isGuessed()) break;
-                if (hasAttempts()) break;
+                if (isGuessed() || hasAttempts()) break;
                 changePlayer();
             }
             endRound();
