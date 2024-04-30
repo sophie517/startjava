@@ -1,7 +1,6 @@
 package com.startjava.graduation.bookshelf;
 
 import java.util.Arrays;
-import java.util.Scanner;
 
 public class Bookshelf {
     public static final int CAPACITY = 10;
@@ -25,49 +24,43 @@ public class Bookshelf {
         return lenShelves;
     }
 
-    public String add(String info) {
+    public void add(Book book) {
         if (numOfBooks >= CAPACITY) {
             throw new RuntimeException("В шкафу закончилось место");
         }
-        try {
-            books[numOfBooks] = new Book(info);
-            lenShelves = Math.max(books[numOfBooks++].getLen(), lenShelves);
-        } catch (RuntimeException e) {
-            throw new RuntimeException("Информация о книге введена неверно\n");
-        }
-        return "Книга добавлена";
+        books[numOfBooks++] = book;
+        lenShelves = Math.max(book.getLen(), lenShelves);
     }
 
-    public String find(String title) {
+    public Book find(String title) {
         for (int i = 0; i < numOfBooks; i++) {
             if (books[i].getTitle().equalsIgnoreCase(title)) {
-                return books[i].toString();
+                return books[i];
             }
         }
-        throw new RuntimeException("Такой книги нет в шкафу");
+        return null;
     }
 
-    public String delete(String title) {
+    public boolean isDeleted(String title) {
         for (int i = 0; i < numOfBooks; i++) {
             if (books[i].getTitle().equalsIgnoreCase(title)) {
-                boolean isLongest = books[i].getLen() == lenShelves;
+                int len = books[i].getLen();
                 System.arraycopy(books, i + 1, books, i, (CAPACITY - i - 1));
                 numOfBooks--;
-                if (isLongest) {
+                if (len == lenShelves) {
                     lenShelves = 0;
-                    for (int j = 0; j < numOfBooks; j++) {
-                        lenShelves = Math.max(books[j].getLen(), lenShelves);
+                    for (Book book : getAllBooks()) {
+                        lenShelves = Math.max(book.getLen(), lenShelves);
                     }
                 }
-                return "Книга удалена";
+                return true;
             }
         }
-        throw new RuntimeException("Такой книги нет в шкафу");
+        return false;
     }
 
-    public String clear() {
-        Arrays.fill(books, null);
+    public void clear() {
+        Arrays.fill(books, 0, numOfBooks, null);
         numOfBooks = 0;
-        return "Шкаф пуст";
     }
 }

@@ -3,6 +3,11 @@ package com.startjava.graduation.bookshelf;
 import java.util.Scanner;
 
 public class BookshelfTest {
+    private static final int ADD = 1;
+    private static final int FIND = 2;
+    private static final int DELETE = 3;
+    private static final int CLEAR = 4;
+    private static final int EXIT = 5;
     private static Scanner sc = new Scanner(System.in);
     private static Bookshelf shelf = new Bookshelf();
     private static int operation;
@@ -13,8 +18,8 @@ public class BookshelfTest {
             while (true) {
                 try {
                     inputOperation();
-                    if (operation == 5) return;
-                    System.out.println(runOperation());
+                    if (operation == EXIT) return;
+                    runOperation();
                     break;
                 } catch (RuntimeException e) {
                     System.out.println(e.getMessage());
@@ -33,26 +38,25 @@ public class BookshelfTest {
     }
 
     public static void printBookshelf() {
-        int height = shelf.getNumOfBooks();
-        int length = shelf.getLenShelves();
-        System.out.println("В шкафу книг - " + height + ", свободно полок - " + shelf.getNumOfFreeShelves());
+        System.out.print("В шкафу книг - " + shelf.getNumOfBooks());
+        System.out.println(", свободно полок - " + shelf.getNumOfFreeShelves());
         System.out.println();
-        for (int i = 0; i < height; i++) {
-            String book = shelf.getAllBooks()[i].toString();
-            System.out.println("| " + book + " ".repeat(length - book.length()) + " |");
-            System.out.println("|" + "-".repeat(length + 2) + "|");
+        int len = shelf.getLenShelves();
+        for (Book book : shelf.getAllBooks()) {
+            System.out.print("| " + book.toString());
+            System.out.println(" ".repeat(len - book.toString().length()) + " |");
+            System.out.println("|" + "-".repeat(len + 2) + "|");
         }
-        System.out.println(height != Bookshelf.CAPACITY ? "|" + " ".repeat(length + 2) + "|" : "");
+        System.out.println("|" + " ".repeat(len + 2) + "|");
     }
 
     public static void printMenu() {
-        System.out.println("""
-                Меню:\s
-                1. Добавить книгу\s
-                2. Найти книгу по названию\s
-                3. Удалить книгу по названию\s
-                4. Очистить шкаф\s
-                5. Завершить работу с шкафом""");
+        System.out.println("Меню: \n" +
+                           ADD + ". Добавить книгу \n" +
+                           FIND + ". Найти книгу по названию \n" +
+                           DELETE + ". Удалить книгу по названию \n" +
+                           CLEAR + ". Очистить шкаф \n" +
+                           EXIT + ". Завершить работу с шкафом");
     }
 
     public static void inputOperation() {
@@ -66,26 +70,49 @@ public class BookshelfTest {
         }
     }
 
-    public static String runOperation() {
-        return switch (operation) {
-            case 1 -> {
-                System.out.println("Через запятую введите информацию о книге: " +
-                        "автора, название и год издания");
-                String info = sc.nextLine();
-                yield shelf.add(info);
-            }
-            case 2 -> {
-                System.out.print("Введите название книги: ");
-                String title = sc.nextLine();
-                yield shelf.find(title);
-            }
-            case 3 -> {
-                System.out.print("Введите название книги: ");
-                String title = sc.nextLine();
-                yield shelf.delete(title);
-            }
-            case 4 -> shelf.clear();
+    public static void runOperation() {
+        switch (operation) {
+            case ADD -> addBook();
+            case FIND -> findBook();
+            case DELETE -> deleteBook();
+            case CLEAR -> clearBookshelf();
             default -> throw new RuntimeException("Такой операции нет");
-        };
+        }
+    }
+
+    public static void addBook() {
+        System.out.println("Через запятую введите информацию о книге: " +
+                "автора, название и год издания");
+        try {
+            Book book;
+            try {
+                book = new Book(sc.nextLine());
+            } catch (RuntimeException e) {
+                throw new RuntimeException("Информация о книге введена неверно");
+            }
+            shelf.add(book);
+            System.out.println("Книга добавлена");
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void findBook() {
+        Book book = shelf.find(inputBookTitle());
+        System.out.println(book != null ? book.toString() : "Книга не найдена");
+    }
+
+    public static String inputBookTitle() {
+        System.out.print("Введите название книги: ");
+        return sc.nextLine();
+    }
+
+    public static void deleteBook() {
+        System.out.println(shelf.isDeleted(inputBookTitle()) ? "Книга удалена" : "Книга не найдена");
+    }
+
+    public static void clearBookshelf() {
+        shelf.clear();
+        System.out.println("Шкаф пуст");
     }
 }
