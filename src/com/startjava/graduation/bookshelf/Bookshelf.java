@@ -3,7 +3,7 @@ package com.startjava.graduation.bookshelf;
 import java.util.Arrays;
 
 public class Bookshelf {
-    public static final int CAPACITY = 10;
+    private static final int CAPACITY = 10;
     private int numOfBooks;
     private Book[] books = new Book[CAPACITY];
     private int lenShelves;
@@ -41,22 +41,26 @@ public class Bookshelf {
         return null;
     }
 
-    public boolean isDeleted(String title) {
+    public boolean delete(String title) {
         for (int i = 0; i < numOfBooks; i++) {
             if (books[i].getTitle().equalsIgnoreCase(title)) {
                 int len = books[i].getLen();
-                System.arraycopy(books, i + 1, books, i, (CAPACITY - i - 1));
+                System.arraycopy(books, i + 1, books, i, (numOfBooks - i - 1));
                 numOfBooks--;
-                if (len == lenShelves) {
-                    lenShelves = 0;
-                    for (Book book : getAllBooks()) {
-                        lenShelves = Math.max(book.getLen(), lenShelves);
-                    }
-                }
+                calculateLenShelves(len);
                 return true;
             }
         }
         return false;
+    }
+
+    public void calculateLenShelves(int len) {
+        if (len == lenShelves) {
+            lenShelves = 0;
+            for (Book book : getAllBooks()) {
+                lenShelves = Math.max(book.getLen(), lenShelves);
+            }
+        }
     }
 
     public void clear() {
