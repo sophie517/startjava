@@ -21,20 +21,20 @@ SELECT *
  WHERE mark NOT IN ('Mark-1', 'Mark-4') 
  ORDER BY mark DESC;
 
-\echo the oldest robot's information
+\echo the oldest robots information
 SELECT * 
   FROM jaegers 
  WHERE launch = (SELECT MIN(launch) 
-		   FROM jaegers);
+                   FROM jaegers);
 
 \echo robots that have destroyed the most number of kaiju
 SELECT model_name, mark, launch, kaiju_kill 
   FROM jaegers 
  WHERE kaiju_kill = (SELECT MAX(kaiju_kill) 
-		       FROM jaegers) 
+                       FROM jaegers) 
  ORDER BY model_name;
 
-\echo robots' average weight
+\echo robots average weight
 SELECT ROUND(AVG(weight), 3)
   FROM jaegers;
 
